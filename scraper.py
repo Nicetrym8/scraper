@@ -1,7 +1,6 @@
 from models import *
-data = []
 models_list = [
-    kithModel(),
+    FoodNetworksModel(),
 ]
 for el in models_list:
     print(str(el.parse()))

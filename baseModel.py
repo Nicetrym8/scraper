@@ -4,11 +4,11 @@ import requests
 
 class BaseObject:
     name = str
-    link = str
+    ingredients = list
 
-    def __init__(self, name, link):
+    def __init__(self, name, ingredients):
         self.name = name
-        self.link = link
+        self.ingredients = ingredients
 
     def __repr__(self):
         return self.__dict__
@@ -19,21 +19,18 @@ class BaseModel:
     headers = dict
     url = str
 
-    def __init__(self, url, headers):
+    def __init__(self, url, headers=None):
         self.url = url
         self.headers = headers
 
-    def __request(self):
+    def __request(self, url=""):
+        if not url:
+            url = self.url
         session = requests.session()
         response = session.get(
-            self.url, headers=self.headers)
-
-        if response.status_code == 200:
-            print("OK")
-        else:
-            print("Error")
+            url, headers=self.headers)
         soup = BeautifulSoup(response.text, "html.parser")
         return soup
 
-    def parse(self):
-        return self.__request()
+    def parse(self, url=""):
+        return self.__request(url)
