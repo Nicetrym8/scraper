@@ -1,11 +1,9 @@
-from abc import abstractclassmethod, abstractmethod
+from abc import abstractmethod
 from bs4 import BeautifulSoup
 import requests
 
 
 class BaseObject:
-    name = str
-    ingredients = list
 
     def __init__(self, name, ingredients):
         self.name = name
