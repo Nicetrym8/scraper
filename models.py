@@ -14,7 +14,7 @@ class FoodNetworksModel(baseModel.BaseModel):
         subroutes = ['123']  # + list(string.ascii_lowercase)
         rough_result = []
         for subroute in subroutes:
-            soup = super().parse(self.url + '/' + subroute)
+            soup = super()._request(self._url + '/' + subroute)
 
             for element in soup.find_all('li', class_='m-PromoList__a-ListItem'):
                 rough_result.append('https:'+element.find('a').get('href'))
@@ -23,9 +23,8 @@ class FoodNetworksModel(baseModel.BaseModel):
     def parse(self):
         links_list = self.__rough_parse()
         for link in links_list:
-            print('ok\n')
             ingredients = []
-            soup = super().parse(link)
+            soup = super()._request(link)
             name = soup.find('meta', property="og:title")["content"]
             for element in soup.find_all('span', class_='o-Ingredients__a-Ingredient--CheckboxLabel'):
                 ingredients.append(element.text)

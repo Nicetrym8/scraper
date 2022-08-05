@@ -1,3 +1,4 @@
+from abc import abstractclassmethod, abstractmethod
 from bs4 import BeautifulSoup
 import requests
 
@@ -16,21 +17,20 @@ class BaseObject:
 
 class BaseModel:
     result = []
-    headers = dict
-    url = str
 
     def __init__(self, url, headers=None):
-        self.url = url
-        self.headers = headers
+        self._url = url
+        self._headers = headers
 
-    def __request(self, url=""):
+    def _request(self, url=""):
         if not url:
-            url = self.url
+            url = self._url
         session = requests.session()
         response = session.get(
-            url, headers=self.headers)
+            url, headers=self._headers)
         soup = BeautifulSoup(response.text, "html.parser")
         return soup
 
-    def parse(self, url=""):
-        return self.__request(url)
+    @abstractmethod
+    def parse(self):
+        pass
